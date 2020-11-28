@@ -27,6 +27,7 @@ sessions.set("sessid101", "sue")
 sessions.set("sessid102", "bobr")
 
 let listings = new Map()
+listings.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
@@ -177,6 +178,22 @@ app.post("/create-listing", (req, res) => {
   })
 
 app.get("/listing", (req, res) => {
+
+	let rqlistingId = req.query.listingId
+	//let listingItem = {}
+
+	for (let i of listings.keys()){
+		var x = listings.get[i].itemID
+		if(x===rqlistingId){
+			res.send(JSON.stringify({"success":true,"listing":listingItem}))
+			return	
+		}
+
+	}
+
+		res.send(JSON.stringify({"success":false,"reason":"Invalid listing id"}))
+		return
+
   })
 
 app.post("/modify-listing", (req, res) => {
