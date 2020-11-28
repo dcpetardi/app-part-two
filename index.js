@@ -26,6 +26,8 @@ sessions.set("sessid100", "bob")
 sessions.set("sessid101", "sue")
 sessions.set("sessid102", "bobr")
 
+let listings = new Map()
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -48,6 +50,11 @@ let counter = 144
 let genSessionId = () => {
     counter = counter + 1
     return "sess" + counter
+}
+let counterL = 144
+let genlistingId = () => {
+    counterL = counterL + 1
+    return "listing" + counterL
 }
 
 app.get("/sourcecode", (req, res) => {
@@ -84,9 +91,9 @@ app.post("/signup", (req, res) => {
 app.post("/login", (req, res) => {
 	//this is creates a json object 
 	let parsedBody = JSON.parse(req.body)
-    let usr = parsedBody.username
+    let username = parsedBody.username
     let actualPassword = parsedBody.password
-    let expectedPassword = passwords.get(usr)
+    let expectedPassword = passwords.get(username)
 	//let expectedUN = passwords.get(actualPassword)
 
     if(!parsedBody.hasOwnProperty('password')) {
@@ -102,7 +109,7 @@ app.post("/login", (req, res) => {
 	
 	}else if (actualPassword === expectedPassword) {
         let sessId = genSessionId()
-        sessions.set(sessId, usr)
+        sessions.set(sessId, username)
         res.send(JSON.stringify({success: true, token: sessId}))
         return
 		
@@ -128,11 +135,11 @@ app.post("/change-password", (req, res) => {
 	let username = sessions.get(sessId)
 	let expectedPW = passwords.get(username)
 
-	console.log("username",username)
+	/*console.log("username",username)
 	console.log("expectedPW",expectedPW)
 	console.log("oldPassword",oldPassword)
 	console.log("sessions",sessions)
-	console.log("passwords",passwords)
+	console.log("passwords",passwords)*/
 	
 	if(oldPassword !== expectedPW) {
 		res.send(JSON.stringify({"success":false,"reason":"Unable to authenticate"}))
@@ -143,6 +150,30 @@ app.post("/change-password", (req, res) => {
   })
 
 app.post("/create-listing", (req, res) => {
+
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	let price = parsedBody.price
+    let description = parsedBody.description
+	
+    if(sessId===undefined){
+		res.send(JSON.stringify({"success":false,"reason":"token field missing"}))
+		return
+	}else if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('price'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"price field missing"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('description')) {
+		res.send(JSON.stringify({"success":false,"reason":"description field missing"}))
+		return
+	
+	}
+	let listingId = genlistingId()
+	let username = sessions.get(sessId)
+    listings.set(sessId, [{price:price,description:description,itemId:listingId,sellerUsername:username}])
+	res.send(JSON.stringify({"success":true,"listingId":listingId}))
   })
 
 app.get("/listing", (req, res) => {
