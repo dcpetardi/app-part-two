@@ -58,6 +58,8 @@ res.send(require('fs').readFileSync(__filename).toString())
   console.log(`partOne.js app listening at http://localhost:${port}`)
 })*/
 
+/*app2*/
+
 app.listen(process.env.PORT||4000)
 
 app.post("/signup", (req, res) => {
@@ -109,6 +111,24 @@ app.post("/login", (req, res) => {
 })
 
 app.post("/change-password", (req, res) => {
+
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	let oldPassword = parsedBody.oldPassword
+    let newPassword = parsedBody.newPassword
+	
+    if(sessId===undefined){
+		res.send(JSON.stringify({"success":false,"reason":"token field missing"}))
+		return
+	}else if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(oldPassword !== newPassword) {
+		res.send(JSON.stringify({"success":false,"reason":"Unable to authenticate"}))
+		return
+	}
+	sessions.set(sessId, newPassword)
+	res.send(JSON.stringify({"success":true}))
   })
 
 app.post("/create-listing", (req, res) => {
