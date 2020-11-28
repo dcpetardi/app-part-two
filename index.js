@@ -27,7 +27,7 @@ sessions.set("sessid101", "sue")
 sessions.set("sessid102", "bobr")
 
 let listings = new Map()
-listings.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
+//listings.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
