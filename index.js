@@ -123,7 +123,12 @@ app.post("/change-password", (req, res) => {
 	}else if(!sessions.has(sessId)) {
 		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
 		return
-	}else if(oldPassword !== newPassword) {
+	}
+	 
+	let username = sessions.get(sessId)
+	let expectedPW = passwords.get(username)
+	
+	if(oldPassword !== expectedPW) {
 		res.send(JSON.stringify({"success":false,"reason":"Unable to authenticate"}))
 		return
 	}
