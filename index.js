@@ -127,6 +127,12 @@ app.post("/change-password", (req, res) => {
 	 
 	let username = sessions.get(sessId)
 	let expectedPW = passwords.get(username)
+
+	console.log("username",username)
+	console.log("expectedPW",expectedPW)
+	console.log("oldPassword",oldPassword)
+	console.log("sessions",sessions)
+	console.log("passwords",passwords)
 	
 	if(oldPassword !== expectedPW) {
 		res.send(JSON.stringify({"success":false,"reason":"Unable to authenticate"}))
