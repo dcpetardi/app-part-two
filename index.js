@@ -138,7 +138,7 @@ app.post("/change-password", (req, res) => {
 		res.send(JSON.stringify({"success":false,"reason":"Unable to authenticate"}))
 		return
 	}
-	passwords.set(sessId, newPassword)
+	passwords.set(username, newPassword)
 	res.send(JSON.stringify({"success":true}))
   })
 
