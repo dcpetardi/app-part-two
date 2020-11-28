@@ -66,14 +66,14 @@ app.post("/signup", (req, res) => {
 	//this is creates a json object 
 	let parsedBody = JSON.parse(req.body)
     // the has method returns true if the key is already in the map
-    if (passwords.has(parsedBody.username)) {
-        res.send(JSON.stringify({"success":false,"reason":"Username exists"}))
-        return
-    }else if(!parsedBody.hasOwnProperty('password')) {
+    if(!parsedBody.hasOwnProperty('password')) {
         res.send(JSON.stringify({"success":false,"reason":"password field missing"}))
         return
     }else if(!parsedBody.hasOwnProperty('username'))  {
         res.send(JSON.stringify({"success":false,"reason":"username field missing"}))
+        return
+    }else if (passwords.has(parsedBody.username)) {
+        res.send(JSON.stringify({"success":false,"reason":"Username exists"}))
         return
     }
     passwords.set(parsedBody.username, parsedBody.password)
