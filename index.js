@@ -173,7 +173,7 @@ app.post("/create-listing", (req, res) => {
 	}
 	let listingId = genlistingId()
 	let username = sessions.get(sessId)
-    listings.set(listingId, [{price:price,description:description,itemId:listingId,sellerUsername:username}])
+    listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
 	res.send(JSON.stringify({"success":true,"listingId":listingId}))
   })
 
