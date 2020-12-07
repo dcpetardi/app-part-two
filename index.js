@@ -183,7 +183,7 @@ app.get("/listing", (req, res) => {
 	//let listingItem = {}
 
 	for (let i of listings.keys()){
-		var x = listings.get[i].itemID
+		var x = i.itemID
 		if(x===rqlistingId){
 			res.send(JSON.stringify({"success":true,"listing":listingItem}))
 			return	
