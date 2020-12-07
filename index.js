@@ -173,7 +173,7 @@ app.post("/create-listing", (req, res) => {
 	}
 	let listingId = genlistingId()
 	let username = sessions.get(sessId)
-    listings.set(sessId, [{price:price,description:description,itemId:listingId,sellerUsername:username}])
+    listings.set(listingId, [{price:price,description:description,itemId:listingId,sellerUsername:username}])
 	res.send(JSON.stringify({"success":true,"listingId":listingId}))
   })
 
@@ -182,16 +182,12 @@ app.get("/listing", (req, res) => {
 	let rqlistingId = req.query.listingId
 	//let listingItem = {}
 
-	for (let i of listings.keys()){
-		var x = i.itemID
-		if(x===rqlistingId){
-			res.send(JSON.stringify({"success":true,"listing":listingItem}))
-			return	
-		}
-
+	if(!listings.has(rqlistingId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid listing id"}))
+		return
 	}
 
-		res.send(JSON.stringify({"success":false,"reason":"Invalid listing id"}))
+		res.send(JSON.stringify({"success":true,"listing":listings.get(rqlistingId)}))
 		return
 
   })
