@@ -423,9 +423,9 @@ app.post("/chat-messages", (req, res) => {
 				console.log("else if",chatmessages[i].to===parsedBody.destination && chatmessages[i].from===sessions.get(sessId))
 				if(chatmessages[i].from===parsedBody.destination && chatmessages[i].to===sessions.get(sessId)){
 					
-					arr.push({form:chatmessages[i].from,contents:parsedBody.contents})
+					arr.push({from:chatmessages[i].from,contents:parsedBody.contents})
 				}else if(chatmessages[i].to===parsedBody.destination && chatmessages[i].from===sessions.get(sessId)){
-					arr.push({form:chatmessages[i].to,contents:parsedBody.contents})
+					arr.push({from:chatmessages[i].to,contents:parsedBody.contents})
 				}
 
 				
