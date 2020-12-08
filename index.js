@@ -492,14 +492,12 @@ app.get("/status", (req, res) => {
 	//let listingId = parsedBody.itemid
 	let status = shipped.get(itemid)
 
-	res.send(JSON.stringify({"success":true,"status":status}))
-	return
 
 	if(status==='shipped')  {	
 		res.send(JSON.stringify({"success":true,"status":status}))
 	return
 	}else if(status==='Item not sold') {
-		res.send(JSON.stringify({"success":true,"reason":status}))
+		res.send(JSON.stringify({"success":false,"reason":status}))
 		return
 	}else if(status==='not-shippedd')  {	
 		res.send(JSON.stringify({"success":true,"status":status}))
