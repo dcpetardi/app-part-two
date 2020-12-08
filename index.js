@@ -195,8 +195,7 @@ app.get("/listing", (req, res) => {
 app.post("/modify-listing", (req, res) => {
 	let parsedBody = JSON.parse(req.body)
 	let sessId = req.headers.token
-	let price = parsedBody.price
-    let description = parsedBody.description
+	
 	
     if(sessId===undefined){
 		res.send(JSON.stringify({"success":false,"reason":"token field missing"}))
@@ -207,12 +206,35 @@ app.post("/modify-listing", (req, res) => {
 	}else if(!parsedBody.hasOwnProperty('itemid'))  {	
 		res.send(JSON.stringify({"success":false,"reason":"itemid field missing"}))
 		return
-	}
+	}else if(!parsedBody.hasOwnProperty('price'))  {
 	//let listingId = genlistingId()
-	let username = sessions.get(sessId)
-	let listingId = parsedBody.itemId
-    listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
-	res.send(JSON.stringify({"success":true}))
+		let username = sessions.get(sessId)
+		let listingId = parsedBody.itemId
+		let price = listings.get(listingId).price
+		let description = parsedBody.description
+	
+   		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+		res.send(JSON.stringify({"success":true}))
+		return
+	}else if(!parsedBody.hasOwnProperty('description'))  {
+		//let listingId = genlistingId()
+		let username = sessions.get(sessId)
+		let listingId = parsedBody.itemId
+		let price = parsedBody.price
+		let description = listings.get(listingId).description
+		
+		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+		res.send(JSON.stringify({"success":true}))
+		return
+	}
+		let username = sessions.get(sessId)
+		let listingId = parsedBody.itemId
+		let price = parsedBody.price
+    	let description = parsedBody.description
+	   
+		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})	
+		res.send(JSON.stringify({"success":true}))
+		return
   })
 
 app.post("/add-to-cart", (req, res) => {
