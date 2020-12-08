@@ -569,7 +569,7 @@ app.get("/reviews", (req, res) => {
 		
 		
 	}		
-	res.send(JSON.stringify({"success":true,"selling":arr}))
+	res.send(JSON.stringify({"success":true,"reviews":arr}))
 	return
 	
   })
