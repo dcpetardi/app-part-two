@@ -286,7 +286,7 @@ app.get("/cart", (req, res) => {
 		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
 		return
 	}
-	res.send(JSON.stringify({"success":true,"cart":car.get(sessId)}))
+	res.send(JSON.stringify({"success":true,"cart":cart.get(sessId)}))
 	return
 
 
