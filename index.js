@@ -35,7 +35,7 @@ let cart = new Map()
 let purchased = new Map()
 //purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
-let chatmessages = new Map()
+let chatmessages =[]
 //purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
 
 let channel = new Map()
@@ -385,17 +385,9 @@ app.post("/chat", (req, res) => {
 
 		if (x===parsedBody.destination){
 
-			if(chatmessages.has(sessId)){
-				chatmessages.get(sessId).push({from:parsedBody.destination,contents:parsedBody.contents})
+				chatmessages.push({form:sessions.get(sessId),to:parsedBody.destination,contents:parsedBody.contents})
 				res.send(JSON.stringify({"success":true}))
 				return
-			}else{
-				chatmessages.set(sessId, [{from:parsedBody.destination,contents:parsedBody.contents}])
-				res.send(JSON.stringify({"success":true}))
-				return
-		
-			}
-
 		
 		}
 	}
@@ -405,23 +397,34 @@ app.post("/chat", (req, res) => {
   })
 
 app.post("/chat-messages", (req, res) => {
-	let parsedBody = JSON.parse(req.body)
+	//let parsedBody = JSON.parse(req.body)
 	let sessId = req.headers.token
 
 	if(!sessions.has(sessId)) {
 		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
 		return
-	}else if(!parsedBody.hasOwnProperty('destination'))  {	
+	}else if(!JSON.parse(req.body).hasOwnProperty('destination'))  {	
 		res.send(JSON.stringify({"success":false,"reason":"destination field missing"}))
 		return
 	}
+
+	let parsedBody = JSON.parse(req.body)
+
 	for (let x of sessions.values()){
 
 		
 		if (x===parsedBody.destination){
 			let arr = [];
 
+			for(i=0;i<chatmessages.length; i++){
+				if(chatmessages[i].from===parsedBody.destination && chatmessages[i].to===sessions.get(sessId)){
+					arr.push({form:chatmessages[i].from,contents:parsedBody.contents})
+				}else if(chatmessages[i].to===parsedBody.destination && chatmessages[i].from===sessions.get(sessId)){
+					arr.push({form:chatmessages[i].to,contents:parsedBody.contents})
+				}
 
+				
+			}
 
 			res.send(JSON.stringify({"success":true,"messages":arr}))
 			return
