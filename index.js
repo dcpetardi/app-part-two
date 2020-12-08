@@ -210,7 +210,7 @@ app.post("/modify-listing", (req, res) => {
 	//let listingId = genlistingId()
 		if(!parsedBody.hasOwnProperty('price')){
 			let username = sessions.get(sessId)
-			let listingId = parsedBody.itemId
+			let listingId = parsedBody.itemid
 			let price = listings.get(listingId).price
 			let description = parsedBody.description
 	
@@ -220,7 +220,7 @@ app.post("/modify-listing", (req, res) => {
 		}else if(!parsedBody.hasOwnProperty('description'))  {
 				//let listingId = genlistingId()
 				let username = sessions.get(sessId)
-				let listingId = parsedBody.itemId
+				let listingId = parsedBody.itemid
 				let price = parsedBody.price
 				console.log("listingId",listingId)
 				let description = listings.get(listingId).description
