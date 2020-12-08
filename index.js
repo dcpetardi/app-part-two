@@ -582,6 +582,7 @@ app.get("/selling", (req, res) => {
 		res.send(JSON.stringify({"success":false,"reason":"sellerUsername field missing"}))
 		return
 	}
+	console.log(sellerUsername)
 
 			let arr = [];
 
