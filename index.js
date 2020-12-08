@@ -416,8 +416,13 @@ app.post("/chat-messages", (req, res) => {
 		if (x===parsedBody.destination){
 			let arr = [];
 
+			console.log("chatmessages",chatmessages)
+
 			for(i=0;i<chatmessages.length; i++){
+				console.log("if",chatmessages[i].from===parsedBody.destination && chatmessages[i].to===sessions.get(sessId))
+				console.log("else if",chatmessages[i].to===parsedBody.destination && chatmessages[i].from===sessions.get(sessId))
 				if(chatmessages[i].from===parsedBody.destination && chatmessages[i].to===sessions.get(sessId)){
+					
 					arr.push({form:chatmessages[i].from,contents:parsedBody.contents})
 				}else if(chatmessages[i].to===parsedBody.destination && chatmessages[i].from===sessions.get(sessId)){
 					arr.push({form:chatmessages[i].to,contents:parsedBody.contents})
