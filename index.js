@@ -222,8 +222,10 @@ app.post("/modify-listing", (req, res) => {
 				let username = sessions.get(sessId)
 				let listingId = parsedBody.itemId
 				let price = parsedBody.price
+				console.log("listingId",listingId)
 				let description = listings.get(listingId).description
-				
+				console.log("description",description)
+				console.log("listingId2",listingId)
 				listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
 				res.send(JSON.stringify({"success":true}))
 				return
