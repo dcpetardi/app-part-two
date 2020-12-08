@@ -193,6 +193,26 @@ app.get("/listing", (req, res) => {
   })
 
 app.post("/modify-listing", (req, res) => {
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	let price = parsedBody.price
+    let description = parsedBody.description
+	
+    if(sessId===undefined){
+		res.send(JSON.stringify({"success":false,"reason":"token field missing"}))
+		return
+	}else if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('itemid'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"itemid field missing"}))
+		return
+	}
+	//let listingId = genlistingId()
+	let username = sessions.get(sessId)
+	let listingId = parsedBody.itemId
+    listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+	res.send(JSON.stringify({"success":true}))
   })
 
 app.post("/add-to-cart", (req, res) => {
