@@ -351,7 +351,7 @@ app.post("/checkout", (req, res) => {
 		return
 	}else{*/
 		purchased.set(sessId, arr)
-		shipped.set(listingId,"not-shipped")
+		//shipped.set(listingId,"not-shipped")
 		res.send(JSON.stringify({"success":true}))
 		return
 
