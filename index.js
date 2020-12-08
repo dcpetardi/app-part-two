@@ -32,6 +32,9 @@ let listings = new Map()
 let cart = new Map()
 //cart.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
+let purchased = new Map()
+//purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -293,6 +296,57 @@ app.get("/cart", (req, res) => {
   })
 
 app.post("/checkout", (req, res) => {
+	let sessId = req.headers.token
+	
+	if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!cart.has(sessId)||cart.get(sessId).length===0)  {	
+		res.send(JSON.stringify({"success":false,"reason":"Empty cart"}))
+		return
+	}
+
+	let arr = [];
+
+	arr = cart.get(sessId)
+
+	for(i=0; i <arr.length; i++){		
+		
+		let reqItem = arr[i].itemId;
+		//console.log(y[i].price)
+		for (let y of purchased.values()){
+			for(j=0; j <y.length; j++){
+				
+				if(reqItem===y[j].itemId){
+					
+					res.send(JSON.stringify({"success":false,"reason":"Item in cart no longer available"}))
+					return
+				}
+				  //console.log()
+				}  
+
+		}
+        
+	}
+
+
+	//let listingId = parsedBody.itemid//this has to be changed
+	//let price = listings.get(listingId).price
+	//let description = listings.get(listingId).description	
+	//let sellerUsername = listings.get(listingId).sellerUsername
+
+	//let arr = [];
+
+	/*if(purchased.has(sessId)){
+		purchased.get(sessId).push({price:price,description:description,itemId:listingId,sellerUsername:sellerUsername})
+		res.send(JSON.stringify({"success":true}))
+		return
+	}else{*/
+		purchased.set(sessId, arr)
+		res.send(JSON.stringify({"success":true}))
+		return
+
+	
   })
 
 app.get("/purchase-history", (req, res) => {
