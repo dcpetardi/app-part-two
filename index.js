@@ -467,17 +467,14 @@ app.post("/ship", (req, res) => {
       
       }  
   }*/
-
-
-
-	if(status==='Item not sold') {
+  if(!listingUN===sessions.get(sessId))  {	
+	res.send(JSON.stringify({"success":false,"reason":"User is not selling that item"}))
+	return
+}else if(status==='Item not sold') {
 		res.send(JSON.stringify({"success":false,"reason":"Item was not sold"}))
 		return
 	}else if(status==='shipped')  {	
 		res.send(JSON.stringify({"success":false,"reason":"Item has already shipped"}))
-		return
-	}else if(!listingUN===sessions.get(sessId))  {	
-		res.send(JSON.stringify({"success":false,"reason":"User is not selling that item"}))
 		return
 	}
 
