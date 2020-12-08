@@ -385,7 +385,7 @@ app.post("/chat", (req, res) => {
 
 		if (x===parsedBody.destination){
 
-				chatmessages.push({form:sessions.get(sessId),to:parsedBody.destination,contents:parsedBody.contents})
+				chatmessages.push({from:sessions.get(sessId),to:parsedBody.destination,contents:parsedBody.contents})
 				res.send(JSON.stringify({"success":true}))
 				return
 		
