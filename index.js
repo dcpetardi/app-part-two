@@ -495,16 +495,16 @@ app.get("/status", (req, res) => {
 	res.send(JSON.stringify({"success":true,"status":status}))
 	return
 
-	/*if(listingUN!==expectedUN)  {	
-		res.send(JSON.stringify({"success":true,"reason":"User is not selling that item"}))
-		return
+	if(status==='shipped')  {	
+		res.send(JSON.stringify({"success":true,"status":status}))
+	return
 	}else if(status==='Item not sold') {
-			res.send(JSON.stringify({"success":true,"reason":"Item not sold"}))
-			return
-	}else if(status==='shipped')  {	
-			res.send(JSON.stringify({"success":true,"reason":"Item has already shipped"}))
-			return
-		}*/
+		res.send(JSON.stringify({"success":true,"reason":status}))
+		return
+	}else if(status==='not-shippedd')  {	
+		res.send(JSON.stringify({"success":true,"status":status}))
+		return
+		}
 
   })
 
