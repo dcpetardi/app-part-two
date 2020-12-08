@@ -586,7 +586,9 @@ app.get("/selling", (req, res) => {
 
 			let arr = [];
 
-			for (let y of listings.values()){
+			for (let x of listings.keys()){
+				
+				let y = listings.get(x)
 
 				for(i=0; i < y.length; i++){
 					console.log("if",sellerUsername===y[i].sellerUsername)
@@ -598,7 +600,20 @@ app.get("/selling", (req, res) => {
 					}
 					
 					
-				}				
+				}
+
+
+				/*for(i=0; i < y.length; i++){
+					console.log("if",sellerUsername===y[i].sellerUsername)
+					console.log("y[i].sellerUsername",y[i].sellerUsername)
+					console.log("sellerUsername",sellerUsername)
+					if(sellerUsername===y[i].sellerUsername){
+
+						arr.push({price:y[i].price,description:y[i].description,sellerUsername:y[i].sellerUsername,itemId:y[i].itemId})
+					}
+					
+					
+				}	*/			
 			}
 
 			res.send(JSON.stringify({"success":true,"selling":arr}))
