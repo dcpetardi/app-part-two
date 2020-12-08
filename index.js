@@ -577,6 +577,8 @@ app.get("/reviews", (req, res) => {
 app.get("/selling", (req, res) => {
 
 	let sellerUsernameT = req.query.sellerUsername
+
+	console.log(sellerUsernameT)
 	
 	if(sellerUsernameT===undefined)  {	
 		res.send(JSON.stringify({"success":false,"reason":"sellerUsername field missing"}))
