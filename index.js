@@ -576,8 +576,9 @@ app.get("/reviews", (req, res) => {
 
 app.get("/selling", (req, res) => {
 
-	let sellerUsername = req.query.sellerUsername
-	if(sellerUsername===undefined)  {	
+	let sellerUsernameT = req.query.sellerUsername
+	
+	if(sellerUsernameT===undefined)  {	
 		res.send(JSON.stringify({"success":false,"reason":"sellerUsername field missing"}))
 		return
 	}
@@ -586,11 +587,11 @@ app.get("/selling", (req, res) => {
 
 			for (let y of listings.values()){
 
-				for(i=0; i <y.length; i++){
-					console.log("if",sellerUsername===y[i].sellerUsername)
+				for(i=0; i < y.length; i++){
+					console.log("if",sellerUsernameT===y[i].sellerUsername)
 					console.log("y[i].sellerUsername",y[i].sellerUsername)
-					console.log("sellerUsername",sellerUsername)
-					if(sellerUsername===y[i].sellerUsername){
+					console.log("sellerUsername",sellerUsernameT)
+					if(sellerUsernameT===y[i].sellerUsername){
 
 						arr.push({price:y[i].price,description:y[i].description,sellerUsername:y[i].sellerUsername,itemId:y[i].itemId})
 					}
