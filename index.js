@@ -39,7 +39,7 @@ let chatmessages =[]
 //purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
 
 let shipped = new Map()
-//purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
+//purchased.set(sessId, "bob")
 
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
@@ -330,6 +330,8 @@ app.post("/checkout", (req, res) => {
 					res.send(JSON.stringify({"success":false,"reason":"Item in cart no longer available"}))
 					return
 				}
+				
+				shipped.set(y[j].itemId,"not-shipped")
 				  //console.log()
 				}  
 
