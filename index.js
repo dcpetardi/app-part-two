@@ -582,25 +582,25 @@ app.get("/selling", (req, res) => {
 		res.send(JSON.stringify({"success":false,"reason":"sellerUsername field missing"}))
 		return
 	}
-	console.log(sellerUsername)
+	//console.log(sellerUsername)
 
 			let arr = [];
 
-			for (let x of listings.keys()){
+			for (let y of listings.values()){
 				
-				let y = listings.get(x)
+				
 
-				for(i=0; i < y.length; i++){
-					console.log("if",sellerUsername===y[i].sellerUsername)
-					console.log("y[i].sellerUsername",y[i].sellerUsername)
-					console.log("sellerUsername",sellerUsername)
-					if(sellerUsername===y[i].sellerUsername){
+				
+					/*console.log("if",sellerUsername===y.sellerUsername)
+					console.log("y[i].sellerUsername",y.sellerUsername)
+					console.log("sellerUsername",sellerUsername)*/
+					if(sellerUsername===y.sellerUsername){
 
-						arr.push({price:y[i].price,description:y[i].description,sellerUsername:y[i].sellerUsername,itemId:y[i].itemId})
+						arr.push({price:y.price,description:y.description,sellerUsername:y.sellerUsername,itemId:y.itemId})
 					}
 					
 					
-				}
+				
 
 
 				/*for(i=0; i < y.length; i++){
