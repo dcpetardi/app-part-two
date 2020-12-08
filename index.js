@@ -29,6 +29,9 @@ sessions.set("sessid102", "bobr")
 let listings = new Map()
 //listings.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
+let cart = new Map()
+//cart.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -243,6 +246,37 @@ app.post("/modify-listing", (req, res) => {
   })
 
 app.post("/add-to-cart", (req, res) => {
+
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	
+	
+    if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('itemid'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"itemid field missing"}))
+		return
+	}else if(!listings.get(parsedBody.itemid))  {	
+		res.send(JSON.stringify({"success":false,"reason":"Item not found"}))
+		return
+	}
+
+	let price = listings.get(listingId).price
+	let description = listings.get(listingId).description
+	let listingId = parsedBody.itemid
+	let sellerUsername = listings.get(listingId).sellerUsername
+
+	if(cart.has(sessId)){
+		cart.get(sessId).push([{price:price,description:description,itemId:listingId,sellerUsername:sellerUsername}])
+		res.send(JSON.stringify({"success":true}))
+		return
+	}else{
+		cart.set(sessId, [{price:price,description:description,itemId:listingId,sellerUsername:sellerUsername}])
+		res.send(JSON.stringify({"success":true}))
+		return
+
+	}
   })
 
 app.get("/cart", (req, res) => {
