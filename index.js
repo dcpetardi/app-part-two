@@ -488,7 +488,7 @@ app.post("/ship", (req, res) => {
   })
 
 app.get("/status", (req, res) => {
-	let itemid = req.query.channelName
+	let itemid = req.query.itemid
 	//let listingId = parsedBody.itemid
 	let status = shipped.get(itemid)
 
