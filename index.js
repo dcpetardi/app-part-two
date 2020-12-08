@@ -38,6 +38,9 @@ let purchased = new Map()
 let chatmessages =[]
 //purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
 
+let shipped = new Map()
+//purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -182,7 +185,8 @@ app.post("/create-listing", (req, res) => {
 	}
 	let listingId = genlistingId()
 	let username = sessions.get(sessId)
-    listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+	listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+	shipped.set(listingId,"Item not sold")
 	res.send(JSON.stringify({"success":true,"listingId":listingId}))
   })
 
@@ -197,6 +201,7 @@ app.get("/listing", (req, res) => {
 	}
 
 		res.send(JSON.stringify({"success":true,"listing":listings.get(rqlistingId)}))
+		
 		return
 
   })
@@ -346,6 +351,7 @@ app.post("/checkout", (req, res) => {
 		return
 	}else{*/
 		purchased.set(sessId, arr)
+		shipped.set(listingId,"not-shipped")
 		res.send(JSON.stringify({"success":true}))
 		return
 
@@ -440,6 +446,43 @@ app.post("/chat-messages", (req, res) => {
   })
 
 app.post("/ship", (req, res) => {
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	let listingId = parsedBody.itemid
+	let status = shipped.get(listingId)
+
+
+	let listingUN = listings.get(listingId).sellerUsername
+	
+
+
+	/*for (let y of listings.values()){
+
+        for(i=0; i <y.length; i++){
+      //if(username === arr[i]){
+       //   yes = true;
+        console.log(y[i].itemId)
+      
+      }  
+  }*/
+
+
+
+	if(status==='Item not sold') {
+		res.send(JSON.stringify({"success":false,"reason":"Item was not sold"}))
+		return
+	}else if(status==='shipped')  {	
+		res.send(JSON.stringify({"success":false,"reason":"Item has already shipped"}))
+		return
+	}else if(listingUN===sessions.get(sessId))  {	
+		res.send(JSON.stringify({"success":false,"reason":"User is not selling that item"}))
+		return
+	}
+
+	shipped.set(listingId,"shipped")
+	res.send(JSON.stringify({"success":true}))
+	return
+
   })
 
 app.get("/status", (req, res) => {
