@@ -226,7 +226,7 @@ app.post("/modify-listing", (req, res) => {
 		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})
 		res.send(JSON.stringify({"success":true}))
 		return
-	}
+	}else{
 		let username = sessions.get(sessId)
 		let listingId = parsedBody.itemId
 		let priceT = parsedBody.price
@@ -235,6 +235,7 @@ app.post("/modify-listing", (req, res) => {
 		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})	
 		res.send(JSON.stringify({"success":true}))
 		return
+	}
   })
 
 app.post("/add-to-cart", (req, res) => {
