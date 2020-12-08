@@ -268,7 +268,7 @@ app.post("/add-to-cart", (req, res) => {
 	let sellerUsername = listings.get(listingId).sellerUsername
 
 	if(cart.has(sessId)){
-		cart.get(sessId).push([{price:price,description:description,itemId:listingId,sellerUsername:sellerUsername}])
+		cart.get(sessId).push({price:price,description:description,itemId:listingId,sellerUsername:sellerUsername})
 		res.send(JSON.stringify({"success":true}))
 		return
 	}else{
