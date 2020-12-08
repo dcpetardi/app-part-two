@@ -210,29 +210,29 @@ app.post("/modify-listing", (req, res) => {
 	//let listingId = genlistingId()
 		let username = sessions.get(sessId)
 		let listingId = parsedBody.itemId
-		let price = listings.get(listingId).price
-		let description = parsedBody.description
+		let priceT = listings.get(listingId).price
+		let descriptionT = parsedBody.description
 	
-   		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+   		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})
 		res.send(JSON.stringify({"success":true}))
 		return
 	}else if(!parsedBody.hasOwnProperty('description'))  {
 		//let listingId = genlistingId()
 		let username = sessions.get(sessId)
 		let listingId = parsedBody.itemId
-		let price = parsedBody.price
-		let description = listings.get(listingId).description
+		let priceT = parsedBody.price
+		let descriptionT = listings.get(listingId).description
 		
-		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})
 		res.send(JSON.stringify({"success":true}))
 		return
 	}
 		let username = sessions.get(sessId)
 		let listingId = parsedBody.itemId
-		let price = parsedBody.price
-    	let description = parsedBody.description
+		let priceT = parsedBody.price
+    	let descriptionT = parsedBody.description
 	   
-		listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})	
+		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})	
 		res.send(JSON.stringify({"success":true}))
 		return
   })
