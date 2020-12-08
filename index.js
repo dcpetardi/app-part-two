@@ -470,7 +470,7 @@ app.post("/ship", (req, res) => {
       
       }  
   }*/
-  if(!listingUN===sessions.get(sessId))  {	
+  if(!listingUN===expectedUN)  {	
 	res.send(JSON.stringify({"success":false,"reason":"User is not selling that item"}))
 	return
 }else if(status==='Item not sold') {
