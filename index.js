@@ -41,6 +41,10 @@ let chatmessages =[]
 let shipped = new Map()
 //purchased.set(sessId, "bob")
 
+//let reviews = new Map()
+let reviews =[]
+//purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -507,6 +511,49 @@ app.get("/status", (req, res) => {
   })
 
 app.post("/review-seller", (req, res) => {
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	let listingId = parsedBody.itemid
+	
+	if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}
+
+	for(i=0;i<reviews.length;i++){
+
+		if(reviews[i].itemid===listingId){
+			res.send(JSON.stringify({"success":false,"reason":"This transaction was already reviewed"}))
+			return
+		}
+	}
+
+	let arr = [];
+
+	arr = purchased.get(sessId)
+
+	for(i=0; i <arr.length; i++){		
+		
+		//let reqItem = arr[i].itemId;
+		//console.log(y[i].price)
+		for (let y of purchased.values()){
+			for(j=0; j <y.length; j++){
+				
+				if(listingId===y[j].itemId){
+					
+					reviews.push({from:sessions.get(sessId),numStars:parsedBody.numStars,contents:parsedBody.contents,itemid:listingId,sellerUsername:listings.get(listingId).sellerUsername})
+					res.send(JSON.stringify({"success":true}))
+					return
+				}	
+			}  
+		}
+	}
+	
+	res.send(JSON.stringify({"success":false,"reason":"User has not purchased this item"}))
+	return
+
+	
+
   })
 
 app.get("/reviews", (req, res) => {
