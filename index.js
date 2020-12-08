@@ -280,6 +280,16 @@ app.post("/add-to-cart", (req, res) => {
   })
 
 app.get("/cart", (req, res) => {
+	let sessId = req.headers.token
+
+	if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}
+	res.send(JSON.stringify({"success":true,"cart":car.get(sessId)}))
+	return
+
+
   })
 
 app.post("/checkout", (req, res) => {
