@@ -488,6 +488,24 @@ app.post("/ship", (req, res) => {
   })
 
 app.get("/status", (req, res) => {
+	let itemid = req.query.channelName
+	//let listingId = parsedBody.itemid
+	let status = shipped.get(itemid)
+
+	res.send(JSON.stringify({"success":true,"status":status}))
+	return
+
+	/*if(listingUN!==expectedUN)  {	
+		res.send(JSON.stringify({"success":true,"reason":"User is not selling that item"}))
+		return
+	}else if(status==='Item not sold') {
+			res.send(JSON.stringify({"success":true,"reason":"Item not sold"}))
+			return
+	}else if(status==='shipped')  {	
+			res.send(JSON.stringify({"success":true,"reason":"Item has already shipped"}))
+			return
+		}*/
+
   })
 
 app.post("/review-seller", (req, res) => {
