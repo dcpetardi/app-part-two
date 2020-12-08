@@ -35,7 +35,7 @@ let cart = new Map()
 let purchased = new Map()
 //purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
-let chatMessages = new Map()
+let chatmessages = new Map()
 //purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
 
 let channel = new Map()
