@@ -206,27 +206,29 @@ app.post("/modify-listing", (req, res) => {
 	}else if(!parsedBody.hasOwnProperty('itemid'))  {	
 		res.send(JSON.stringify({"success":false,"reason":"itemid field missing"}))
 		return
-	}else if(!parsedBody.hasOwnProperty('price'))  {
+	}else if(!parsedBody.hasOwnProperty('price')||!parsedBody.hasOwnProperty('description'))  {
 	//let listingId = genlistingId()
-		let username = sessions.get(sessId)
-		let listingId = parsedBody.itemId
-		let priceT = listings.get(listingId).price
-		let descriptionT = parsedBody.description
+		if(!parsedBody.hasOwnProperty('price')){
+			let username = sessions.get(sessId)
+			let listingId = parsedBody.itemId
+			let price = listings.get(listingId).price
+			let description = parsedBody.description
 	
-   		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})
-		res.send(JSON.stringify({"success":true}))
-		return
-	}else if(!parsedBody.hasOwnProperty('description'))  {
-		//let listingId = genlistingId()
-		let username = sessions.get(sessId)
-		let listingId = parsedBody.itemId
-		let priceT = parsedBody.price
-		let descriptionT = listings.get(listingId).description
-		
-		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})
-		res.send(JSON.stringify({"success":true}))
-		return
-	}else{
+   			listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+			res.send(JSON.stringify({"success":true}))
+			return
+		}else if(!parsedBody.hasOwnProperty('description'))  {
+				//let listingId = genlistingId()
+				let username = sessions.get(sessId)
+				let listingId = parsedBody.itemId
+				let price = parsedBody.price
+				let description = listings.get(listingId).description
+				
+				listings.set(listingId, {price:price,description:description,itemId:listingId,sellerUsername:username})
+				res.send(JSON.stringify({"success":true}))
+				return
+			}
+	}
 		let username = sessions.get(sessId)
 		let listingId = parsedBody.itemId
 		let priceT = parsedBody.price
@@ -235,7 +237,7 @@ app.post("/modify-listing", (req, res) => {
 		listings.set(listingId, {price:priceT,description:descriptionT,itemId:listingId,sellerUsername:username})	
 		res.send(JSON.stringify({"success":true}))
 		return
-	}
+	
   })
 
 app.post("/add-to-cart", (req, res) => {
