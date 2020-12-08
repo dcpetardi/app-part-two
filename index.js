@@ -456,7 +456,10 @@ app.post("/ship", (req, res) => {
 
 	let listingUN = listings.get(listingId).sellerUsername
 	
+	let expectedUN = sessions.get(sessId)
 
+	console.log("listingUN", listingUN)
+	console.log("expectedUN", expectedUN)
 
 	/*for (let y of listings.values()){
 
