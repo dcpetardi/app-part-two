@@ -350,6 +350,15 @@ app.post("/checkout", (req, res) => {
   })
 
 app.get("/purchase-history", (req, res) => {
+	let sessId = req.headers.token
+
+	if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}
+	res.send(JSON.stringify({"success":true,"purchased":purchased.get(sessId)}))
+		return
+
   })
 
 app.post("/chat", (req, res) => {
