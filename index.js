@@ -262,9 +262,9 @@ app.post("/add-to-cart", (req, res) => {
 		return
 	}
 
-	let price = listings.get(listingId).price
-	let description = listings.get(listingId).description
 	let listingId = parsedBody.itemid
+	let price = listings.get(listingId).price
+	let description = listings.get(listingId).description	
 	let sellerUsername = listings.get(listingId).sellerUsername
 
 	if(cart.has(sessId)){
