@@ -365,21 +365,22 @@ app.get("/purchase-history", (req, res) => {
   })
 
 app.post("/chat", (req, res) => {
-	let parsedBody = JSON.parse(req.body)
+	
+	//let parsedBody = JSON.parse(req.body)
 	let sessId = req.headers.token
 	
 	
     if(!sessions.has(sessId)) {
 		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
 		return
-	}else if(!parsedBody.hasOwnProperty('destination'))  {	
+	}else if(!JSON.parse(req.body).hasOwnProperty('destination'))  {	
 		res.send(JSON.stringify({"success":false,"reason":"destination field missing"}))
 		return
-	}else if(!parsedBody.hasOwnProperty('contents'))  {	
+	}else if(!JSON.parse(req.body).hasOwnProperty('contents'))  {	
 		res.send(JSON.stringify({"success":false,"reason":"contents field missing"}))
 		return
 	}
-
+	let parsedBody = JSON.parse(req.body)
 	for (let x of sessions.values()){
 
 		if (x===parsedBody.destination){
@@ -404,6 +405,33 @@ app.post("/chat", (req, res) => {
   })
 
 app.post("/chat-messages", (req, res) => {
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+
+	if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('destination'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"destination field missing"}))
+		return
+	}
+	for (let x of sessions.values()){
+
+		
+		if (x===parsedBody.destination){
+			let arr = [];
+
+
+
+			res.send(JSON.stringify({"success":true,"messages":arr}))
+			return
+		}
+
+	}
+
+	res.send(JSON.stringify({"success":false,"reason":"Destination user not found"}))
+	return
+
   })
 
 app.post("/ship", (req, res) => {
