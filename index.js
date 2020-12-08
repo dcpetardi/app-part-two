@@ -35,6 +35,9 @@ let cart = new Map()
 let purchased = new Map()
 //purchased.set(sessId, [{price:15,description:"a hat",itemId:"xyz123",sellerUsername:"bob"}])
 
+let chatMessages = new Map()
+//purchased.set(sessId, [{"from":"bob","contents":"hey"},{"from":"sue","contents":"hi"}])
+
 let channel = new Map()
 channel.set("awesome-chatters", "sessid100")
 channel.set("awesome-chatterss", "sessid101")
@@ -362,6 +365,42 @@ app.get("/purchase-history", (req, res) => {
   })
 
 app.post("/chat", (req, res) => {
+	let parsedBody = JSON.parse(req.body)
+	let sessId = req.headers.token
+	
+	
+    if(!sessions.has(sessId)) {
+		res.send(JSON.stringify({"success":false,"reason":"Invalid token"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('destination'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"destination field missing"}))
+		return
+	}else if(!parsedBody.hasOwnProperty('contents'))  {	
+		res.send(JSON.stringify({"success":false,"reason":"contents field missing"}))
+		return
+	}
+
+	for (let x of sessions.values()){
+
+		if (x===parsedBody.destination){
+
+			if(chatmessages.has(sessId)){
+				chatmessages.get(sessId).push({from:parsedBody.destination,contents:parsedBody.contents})
+				res.send(JSON.stringify({"success":true}))
+				return
+			}else{
+				chatmessages.set(sessId, [{from:parsedBody.destination,contents:parsedBody.contents}])
+				res.send(JSON.stringify({"success":true}))
+				return
+		
+			}
+
+		
+		}
+	}
+	res.send(JSON.stringify({"success":false,"reason":"Destination user does not exist"}))
+	return
+
   })
 
 app.post("/chat-messages", (req, res) => {
