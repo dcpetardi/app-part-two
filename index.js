@@ -476,7 +476,7 @@ app.post("/ship", (req, res) => {
 	}else if(status==='shipped')  {	
 		res.send(JSON.stringify({"success":false,"reason":"Item has already shipped"}))
 		return
-	}else if(listingUN===sessions.get(sessId))  {	
+	}else if(!listingUN===sessions.get(sessId))  {	
 		res.send(JSON.stringify({"success":false,"reason":"User is not selling that item"}))
 		return
 	}
