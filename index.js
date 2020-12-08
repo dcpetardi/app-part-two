@@ -499,7 +499,7 @@ app.get("/status", (req, res) => {
 	}else if(status==='Item not sold') {
 		res.send(JSON.stringify({"success":false,"reason":status}))
 		return
-	}else if(status==='not-shippedd')  {	
+	}else if(status==='not-shipped')  {	
 		res.send(JSON.stringify({"success":true,"status":status}))
 		return
 		}
